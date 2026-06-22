@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <img src="https://via.placeholder.com/800x400/0a0a0a/FFD700?text=[INSERT+CONVEYOR+SYSTEM+GIF+OR+CAD+RENDER+HERE]" alt="Waste Segregation Hardware Render" width="100%"/>
+  <img src=""C:\Users\harsh\OneDrive\Desktop\3D Design\Automated Waste Segregation ( JASC )\Assembly.jpeg"" alt="Waste Segregation Hardware Render" width="100%"/>
 </p>
 
 ---
