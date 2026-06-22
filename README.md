@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/Siemens_TIA_Portal-FFD700?style=for-the-badge&logo=siemens&logoColor=black" alt="Siemens TIA Portal"/>
   <img src="https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++"/>
   <img src="https://img.shields.io/badge/Python-FFD700?style=for-the-badge&logo=python&logoColor=black" alt="Python"/>
-  <img src="https://img.shields.io/badge/SolidWorks-00FFFF?style=for-the-badge&logo=solidworks&logoColor=black" alt="SolidWorks"/>
+  <img src="https://img.shields.io/badge/Fusion 360-00FFFF?style=for-the-badge&logo=Fusion 360&logoColor=black" alt="Fusion 360"/>
   <img src="https://img.shields.io/badge/Altium-8B0000?style=for-the-badge&logo=altium&logoColor=white" alt="Altium"/>
 </p>
 
