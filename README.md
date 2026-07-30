@@ -9,6 +9,10 @@
   <img src="https://img.shields.io/badge/Altium-8B0000?style=for-the-badge&logo=altium&logoColor=white" alt="Altium"/>
 </p>
 
+
+\
+
+
 <p align="center">
   <img src=""C:\Users\harsh\OneDrive\Desktop\3D Design\Automated Waste Segregation ( JASC )\Assembly.jpeg"" alt="Waste Segregation Hardware Render" width="100%"/>
 </p>
