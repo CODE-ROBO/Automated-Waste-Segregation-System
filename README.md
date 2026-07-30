@@ -11,7 +11,6 @@
 
 
 
-
 <p align="center">
   <img src=""C:\Users\harsh\OneDrive\Desktop\3D Design\Automated Waste Segregation ( JASC )\Assembly.jpeg"" alt="Waste Segregation Hardware Render" width="100%"/>
 </p>
