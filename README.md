@@ -12,7 +12,7 @@
   <img src=""C:\Users\harsh\OneDrive\Desktop\3D Design\Automated Waste Segregation ( JASC )\Assembly.jpeg"" alt="Waste Segregation Hardware Render" width="100%"/>
 </p>
 
----
+--
 
 <details open>
   <summary><b>📑 DIRECTORY TERMINAL (TABLE OF CONTENTS)</b></summary>
