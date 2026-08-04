@@ -28,7 +28,6 @@
     <li><a href="#citation">Academic Citation</a></li>
   </ol>
 </details>
-
 ---
 
 ### <a id="overview"></a>🌐 EXECUTIVE SYSTEM OVERVIEW
