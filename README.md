@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++"/>
   <img src="https://img.shields.io/badge/Fusion360-00FFFF?style=for-the-badge&logo=Fusion360&logoColor=black" alt="Fusion360"/>
   <img src="https://img.shields.io/badge/Altium-8B0000?style=for-the-badge&logo=altium&logoColor=white" alt="Altium"/>
-   <img src="https://img.shields.io/badge/Altium-8B0000?style=for-the-badge&logo=altium&logoColor=white" alt
+   <img src="https://img.shields.io/badge/Altium-8B0000?style=for-the-badge&logo=altium&logoColor=white" 
    <img src="h
 </p>
 <p align="center">
