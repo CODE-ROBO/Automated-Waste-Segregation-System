@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++"/>
   <img src="https://img.shields.io/badge/Fusion360-00FFFF?style=for-the-badge&logo=Fusion360&logoColor=black" alt="Fusion360"/>
   <img src="https://img.shields.io/badge/Altium-8B0000?style=for-the-badge&logo=altium&logoColor=white" alt="Altium"/>
-  <img src="https://img.shields.io/badge/Siemens_TIA_Portal-FFD700
+  <img src="https://img.shields.io/badge/Siemens_TIA_Portal-FFD7
 </p>
 <p align="center">
   <img src=""C:\Users\harsh\OneDrive\Desktop\3D Design\Automated Waste Segregation ( JASC )\Assembly.jpeg"" alt="Waste Segregation Hardware Render" width="100%"/>
