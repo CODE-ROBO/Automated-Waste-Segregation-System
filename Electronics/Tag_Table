@@ -1,0 +1,24 @@
+# Siemens PLC Tag Table & Discrete State Machine Architecture
+
+### S7-1200 Memory Tag Configuration
+
+```text
+Tag Name               Data Type    Address    Comment
+-------------------------------------------------------------------------------------
+DI_EStop_OK            Bool         %I0.0      Fail-safe Emergency Stop (NC loop)
+DI_Start_PB            Bool         %I0.1      Conveyor Start Push Button (NO)
+DI_Stop_PB             Bool         %I0.2      Conveyor Stop Push Button (NC)
+DI_PE_Trigger          Bool         %I0.3      Optical Part Ingress Detection
+DI_Prox_Inductive      Bool         %I0.4      Inductive Proximity Sensor (Metal)
+DI_Prox_Capacitive     Bool         %I0.5      Capacitive Proximity Sensor (Wet/Organic)
+DI_Cyl1_Home           Bool         %I0.6      Janatics Ejector 1 Home Limit Switch
+DI_Cyl2_Home           Bool         %I1.0      Janatics Ejector 2 Home Limit Switch
+DI_Air_Pressure_OK     Bool         %I1.1      Pneumatic Pressure Interlock (>= 5.5 bar)
+
+DO_Motor_Run           Bool         %Q0.0      Conveyor 24V Drive Motor Run
+DO_Ejector1_Metal      Bool         %Q0.1      Pneumatic Valve 1 Solenoid (Metal)
+DO_Ejector2_Plastic    Bool         %Q0.2      Pneumatic Valve 2 Solenoid (Plastic)
+DO_Light_Green         Bool         %Q0.3      Status Beacon - Running
+DO_Light_Yellow        Bool         %Q0.4      Status Beacon - Standby / Idle
+DO_Light_Red           Bool         %Q0.5      Status Beacon - Alarm Condition
+DO_Buzzer_Fault        Bool         %Q0.6      Acoustic Warning Siren
