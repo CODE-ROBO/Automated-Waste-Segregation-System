@@ -1,0 +1,74 @@
+%% =========================================================================
+%  AUTOMATED WASTE SEGREGATION CONVEYOR: SORTING DYNAMICS & TIMING SOLVER
+%  Evaluates conveyor speed, pneumatic stroke response, and part pitch limits
+%  for Siemens S7-1200 & Janatics pneumatic actuators
+% =========================================================================
+clear; clc; close all;
+
+%% 1. SYSTEM MECHANICAL & PNEUMATIC SPECIFICATIONS
+v_belt        = 0.35;        % Conveyor linear speed (m/s) [Nominal 21 m/min]
+d_sensor_cyl1 = 0.42;        % Distance from sensing array to Ejector 1 (m)
+d_sensor_cyl2 = 0.84;        % Distance from sensing array to Ejector 2 (m)
+
+% Janatics ISO 21287 Cylinder Dynamic Parameters (25mm Bore, 50mm Stroke @ 6 bar)
+stroke_length = 0.050;       % Stroke length (m)
+t_valve_delay = 0.022;       % 5/2 Solenoid electrical/air response time (s)
+v_piston_mean = 0.40;        % Mean piston velocity during stroke (m/s)
+t_extend      = t_valve_delay + (stroke_length / v_piston_mean); % ~147 ms
+t_dwell       = 0.080;       % Extended dwell period (s)
+t_retract     = 0.120;       % Spring / air return time (s)
+t_total_cycle = t_extend + t_dwell + t_retract;                  % ~347 ms
+
+% Workpiece Spatial Dimensions
+part_length   = 0.080;       % Mean component footprint on belt (m)
+
+%% 2. TEMPORAL SYNCHRONIZATION CALCULATIONS
+% Calculate ideal travel times for PLC timers
+t_transit_cyl1 = d_sensor_cyl1 / v_belt; % Seconds
+t_transit_cyl2 = d_sensor_cyl2 / v_belt; % Seconds
+
+% Available ejection time window before part escapes piston face (80mm width)
+t_window_eject = (part_length) / v_belt;
+
+% Minimum theoretical part spacing to prevent double-hits
+d_min_part_spacing = v_belt * t_total_cycle;
+
+fprintf('====================================================================\n');
+fprintf('     AUTOMATED CONVEYOR SORTING LINE KINEMATICS & ACTUATOR TIMING   \n');
+fprintf('====================================================================\n');
+fprintf('Conveyor Belt Linear Velocity  : %.2f m/s (%.1f m/min)\n', v_belt, v_belt * 60);
+fprintf('Transit Delay to Ejector 1     : %.3f s (PLC TON = T#%dms)\n', t_transit_cyl1, round(t_transit_cyl1*1000));
+fprintf('Transit Delay to Ejector 2     : %.3f s (PLC TON = T#%dms)\n', t_transit_cyl2, round(t_transit_cyl2*1000));
+fprintf('Actuator Extension Time        : %.3f s\n', t_extend);
+fprintf('Available Target Window        : %.3f s\n', t_window_eject);
+fprintf('Min Safe Inter-Part Separation : %.3f m (%.1f cm)\n', d_min_part_spacing, d_min_part_spacing*100);
+fprintf('Maximum Line Throughput        : %.1f parts/minute\n', (v_belt / d_min_part_spacing) * 60);
+fprintf('====================================================================\n');
+
+%% 3. TIME-DISPLACEMENT PLOT
+t = 0:0.002:3.5;
+pos_part1 = v_belt * t; % Metal component
+pos_part2 = v_belt * (t - 1.0); % Plastic component ingress at t = 1.0s
+
+figure('Color', [0.1 0.1 0.1], 'Position', [100, 100, 950, 550]);
+plot(t, pos_part1, 'Color', [0 1 1], 'LineWidth', 2.2); hold on;
+plot(t, pos_part2, 'Color', [1 0.8 0], 'LineWidth', 2.2);
+
+yline(d_sensor_cyl1, '--r', 'Station 1: Metal Ejector', 'LineWidth', 1.5);
+yline(d_sensor_cyl2, '--m', 'Station 2: Plastic Ejector', 'LineWidth', 1.5);
+
+% Plot firing windows
+fill([t_transit_cyl1, t_transit_cyl1 + t_extend, t_transit_cyl1 + t_extend, t_transit_cyl1], ...
+     [d_sensor_cyl1-0.03, d_sensor_cyl1-0.03, d_sensor_cyl1+0.03, d_sensor_cyl1+0.03], ...
+     [1 0 0], 'FaceAlpha', 0.35, 'EdgeColor', 'r');
+
+fill([1.0 + t_transit_cyl2, 1.0 + t_transit_cyl2 + t_extend, 1.0 + t_transit_cyl2 + t_extend, 1.0 + t_transit_cyl2], ...
+     [d_sensor_cyl2-0.03, d_sensor_cyl2-0.03, d_sensor_cyl2+0.03, d_sensor_cyl2+0.03], ...
+     [1 0 1], 'FaceAlpha', 0.35, 'EdgeColor', 'm');
+
+title('Workpiece Conveyor Trajectory & Actuator Interception Windows', 'Color', 'w');
+xlabel('Time (s)', 'Color', 'w'); ylabel('Conveyor Position (m)', 'Color', 'w');
+legend({'Part 1 (Metallic)', 'Part 2 (Plastic)', 'Station 1 Plane', 'Station 2 Plane'}, ...
+       'TextColor', 'w', 'Color', [0.2 0.2 0.2], 'Location', 'NorthWest');
+grid on; set(gca, 'Color', [0.15 0.15 0.15], 'XColor', 'w', 'YColor', 'w');
+ylim([0, 1.2]); xlim([0, 3.5]);
