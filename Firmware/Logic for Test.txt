@@ -1,0 +1,19 @@
+
+------------------------------------------------------
+I10.0 = CAP
+I10.1 = Photo3
+I10.2 = RESET
+I10.3 = IND
+I10.4 = Photo2
+I10.5 = photo1
+I10.6 = Start
+I10.7 = Stop
+
+
+--------------------------------------------------------
+Q4.0 = Plastic Bin
+Q4.1 = Metal Bin
+Q4.2 = Paper Bin
+Q4.3 = Block cylinder 
+Q4.4 = Push Cylinder
+Q4.5 = conveyor

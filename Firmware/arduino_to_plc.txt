@@ -1,0 +1,17 @@
+Arduino pins
+1. servo  = 9
+2. stepX = 2
+3. dirX  = 5
+4. stepY = 3
+5. dirY  = 6
+6. enPin = 8
+7. IR 1 = 10 
+8. IR 2 = 11
+9. IR 3 = 12
+10. PLC 1 = 13 (RELAY 5V TO PLC)
+11. PLC 2 = 7  (RELAY 5V TO PLC)
+12. PLC 3 = 4  (RELAY 5V TO PLC)
+13. INP1= A0    (RELAY OF 24V TO ARDUINO)
+14. INP2= A1    (RELAY OF 24V TO ARDUINO)
+15. INP3= A2    (RELAY OF 24V TO ARDUINO)
+16. INP4= A3     (RELAY OF 24V TO ARDUINO)
