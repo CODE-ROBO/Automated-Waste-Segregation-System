@@ -1,0 +1,30 @@
+stateDiagram-v2
+    [*] --> STATE_STOPPED: Power Applied / System Boot
+    
+    STATE_STOPPED --> STATE_RUNNING: Start PB Pressed AND Air Pressure >= 5.5 bar
+    STATE_RUNNING --> STATE_STOPPED: Stop PB Pressed / Line Interrupted
+    
+    STATE_RUNNING --> STATE_FAULT: E-Stop Tripped OR Pressure Drop < 5.5 bar
+    STATE_STOPPED --> STATE_FAULT: E-Stop Tripped OR Pressure Drop < 5.5 bar
+    
+    STATE_FAULT --> STATE_STOPPED: E-Stop Reset AND Pressure Restored
+    
+    state STATE_RUNNING {
+        [*] --> IDLE_CONVEYING
+        IDLE_CONVEYING --> INGRESS_DETECTED: Part Breaks Optical Gate
+        
+        state INGRESS_DETECTED {
+            [*] --> READ_SENSORS
+            READ_SENSORS --> CLASSIFY_METAL: Inductive = HIGH
+            READ_SENSORS --> CLASSIFY_ORGANIC: Capacitive = HIGH & Inductive = LOW
+            READ_SENSORS --> CLASSIFY_PLASTIC: Both Prox = LOW
+        }
+        
+        CLASSIFY_METAL --> FIRING_STATION_1: Timer T#1200ms Elapsed
+        CLASSIFY_PLASTIC --> FIRING_STATION_2: Timer T#2400ms Elapsed
+        CLASSIFY_ORGANIC --> TERMINAL_BIN_3: Conveyor Passes All Ejectors
+        
+        FIRING_STATION_1 --> IDLE_CONVEYING: Cylinder 1 Retracted (280ms)
+        FIRING_STATION_2 --> IDLE_CONVEYING: Cylinder 2 Retracted (280ms)
+        TERMINAL_BIN_3 --> IDLE_CONVEYING: Cleared into Residual Bin
+    }
