@@ -1,0 +1,14 @@
+Item No,Subsystem,Part Name / Model,Manufacturer,Specifications / Rating,Qty,Reference Designator
+1,Control,SIMATIC S7-1200 CPU 1214C,Siemens,6ES7214-1AG40-0XB0 (14DI/10DO DC/DC/DC),1,PLC1
+2,Power,24V DC DIN Rail SMPS,Mean Well,NDR-240-24 (24V DC / 10A / 240W),1,PSU1
+3,Protection,Master Safety Relay,Pilz / Schneider,PNOZ X2.8P 24V DC Dual Channel,1,SR1
+4,Pneumatics,Filter-Regulator-Lubricator (FRL),Janatics India,FRCLM1462 (1/4" Port 0.5-10 bar with gauge),1,FRL1
+5,Pneumatics,Double Acting Compact Cylinder,Janatics India,A510250050O (25mm Bore 50mm Stroke ISO 21287),2,CYL1-CYL2
+6,Pneumatics,5/2 Single Solenoid Spring Return Valve,Janatics India,DS245SR61 (1/4" BSP 24V DC Coil with LED indicator),2,SOL1-SOL2
+7,Pneumatics,Digital Pressure Switch,Janatics India,DPS-100 (-1 to 10 bar NPN/PNP output M8 connector),1,PS1
+8,Pneumatics,Magnetic Reed Switch Sensors,Janatics India,AM20202 (2-wire solid state reed switch with LED),4,RS1-RS4
+9,Sensors,Inductive Proximity Sensor,Omron / Pepperl+Fuchs,E2B-M18KN16-WP-B1 (M18 PNP NO Sn=16mm non-flush),1,PROX_IND
+10,Sensors,Capacitive Proximity Sensor,Autonics / IFM,CR18-8DP (M18 PNP NO Sn=8mm adjustable sensitivity),1,PROX_CAP
+11,Sensors,Photoelectric Thru-Beam Sensor,Sick / Omron,E3FA-TN11 (Infrared thru-beam 15m range PNP NO),1,PE_TRIG
+12,Actuation,Conveyor Geared Motor Drive,Janatics / Oriental Motor,24V DC Planetary Gearmotor 60 RPM 15 Nm torque,1,MTR1
+13,Safety,E-Stop Emergency Push Button,Siemens,3SU1801-0NA00-2AA2 Twist-to-Release 2NC Contacts,1,ES1
