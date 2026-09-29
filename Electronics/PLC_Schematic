@@ -1,0 +1,49 @@
+# Industrial 24V DC Control Architecture & PLC I/O Mapping
+
+### System Power Distribution
+* **Main Incomer:** 230V AC Single Phase, 50 Hz.
+* **Control Power Supply (SMPS):** 24V DC, 10A regulated industrial DIN-rail power supply (Phoenix Contact / Mean Well).
+* **Controller Core:** Siemens SIMATIC S7-1200 (CPU 1214C DC/DC/DC, 14 DI / 10 DO / 2 AI).
+* **Operating Pneumatic Supply:** 6.0 bar regulated dry compressed air via Janatics FRL unit.
+
+---
+
+### Digital Input (DI) Pin Assignment (`%I0.0 - %I1.1`)
+
+All field sensors are 24V DC, 3-wire PNP, Normally Open (NO) devices sinking into the PLC optical isolators.
+
+| Terminal | Tag Name | Hardware Sensor / Device | Signal Type | Functionality |
+| :--- | :--- | :--- | :--- | :--- |
+| `%I0.0` | `DI_EmergencyStop` | Mushroom E-Stop Button (NC) | 24V DC (Fail-Safe) | Cuts master safety relay control circuit |
+| `%I0.1` | `DI_StartPB` | Green Momentary Push Button | 24V DC (NO) | Starts conveyor indexing sequence |
+| `%I0.2` | `DI_StopPB` | Red Momentary Push Button (NC) | 24V DC | Controlled system stop / line flush |
+| `%I0.3` | `DI_PartDetectTrigger` | Photoelectric Thru-Beam Sensor | 24V DC PNP (NO) | Ingress trigger registering workpiece arrival |
+| `%I0.4` | `DI_InductiveSensor` | Inductive Proximity (M18, Sn=8mm) | 24V DC PNP (NO) | Ferrous / non-ferrous metallic detection |
+| `%I0.5` | `DI_CapacitiveSensor` | Capacitive Proximity (M18, Sn=12mm)| 24V DC PNP (NO) | High-dielectric / moisture / organic detection |
+| `%I0.6` | `DI_Cyl1_Retracted` | Janatics Reed Switch (Cylinder 1) | 24V DC (NO) | Metallic ejector home position feedback |
+| `%I0.7` | `DI_Cyl1_Extended` | Janatics Reed Switch (Cylinder 1) | 24V DC (NO) | Metallic ejector stroke complete feedback |
+| `%I1.0` | `DI_Cyl2_Retracted` | Janatics Reed Switch (Cylinder 2) | 24V DC (NO) | Plastic/Dry ejector home position feedback |
+| `%I1.1` | `DI_PressureSwitch` | Janatics Digital Pressure Switch | 24V DC (NO) | Air pressure interlock ($\ge 5.5\text{ bar}$) |
+
+---
+
+### Digital Output (DO) Pin Assignment (`%Q0.0 - %Q0.7`)
+
+All outputs trigger 24V DC solenoid coils and contactors via intermediate optocoupled relay modules.
+
+| Terminal | Tag Name | Actuator / Controlled Device | Electrical Rating | Functionality |
+| :--- | :--- | :--- | :--- | :--- |
+| `%Q0.0` | `DO_ConveyorMotor` | 24V DC Geared Motor Drive / Contactor | 24V DC, 2.5A | Line conveyor continuous traverse drive |
+| `%Q0.1` | `DO_Solenoid_Cyl1` | Janatics 5/2 Solenoid Valve (Station 1) | 24V DC, 4.2W | Ejection impulse for Metallic Waste |
+| `%Q0.2` | `DO_Solenoid_Cyl2` | Janatics 5/2 Solenoid Valve (Station 2) | 24V DC, 4.2W | Ejection impulse for Dry/Plastic Waste |
+| `%Q0.3` | `DO_TowerLamp_Green`| LED Stack Light (Green) | 24V DC, 0.1A | System healthy and conveyor running |
+| `%Q0.4` | `DO_TowerLamp_Yellow`| LED Stack Light (Amber) | 24V DC, 0.1A | Standby / Line paused / Inspection active |
+| `%Q0.5` | `DO_TowerLamp_Red` | LED Stack Light (Red Steady) | 24V DC, 0.1A | E-Stop asserted or low pressure fault |
+| `%Q0.6` | `DO_HooterBuzzer` | Warning Piezo Siren | 24V DC, 0.2A | E-Stop, jam, or pneumatic loss alarm |
+
+---
+
+### Control Panel Wiring Rules & Noise Mitigation
+1. **Galvanic Isolation:** Maintain strict separation between the 230V AC incoming line, 24V DC sensor bus, and inductive motor/valve coils.
+2. **Flyback Suppression:** Fit all pneumatic solenoid coils with 1N4007 flyback diodes (or integrated MOV varistor suppressor connectors) to eliminate back-EMF spikes during de-energization.
+3. **Sensor Shielding:** Sensor cables running along the conveyor aluminum extrusion must be double-shielded, with shields bonded to the control panel earth bar at one single end.
