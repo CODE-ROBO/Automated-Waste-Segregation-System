@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+"""
+Sensor Fusion & Sorting Reliability Monte Carlo Simulator
+Models inductive, capacitive, and optical threshold responses under shop-floor noise
+to evaluate classification accuracy and confusion matrices across 10,000 workpieces.
+"""
+
+import numpy as np
+
+def simulate_sorting_cell(num_samples=10000):
+    np.random.seed(42)
+    
+    # Ground truth classes: 0: Metallic, 1: Plastic/Dry, 2: Organic/Wet
+    class_names = ["Metallic", "Plastic", "Organic"]
+    true_classes = np.random.choice([0, 1, 2], size=num_samples, p=[0.35, 0.40, 0.25])
+    
+    # Sensor Response Models (Gaussian distributed around true physical properties)
+    # 1. Inductive Sensor (Analog Eddy-Current Voltage equivalent, 0-10V, Threshold = 4.5V)
+    ind_v = np.zeros(num_samples)
+    ind_v[true_classes == 0] = np.random.normal(loc=7.8, scale=0.6, size=np.sum(true_classes == 0))
+    ind_v[true_classes == 1] = np.random.normal(loc=0.3, scale=0.15, size=np.sum(true_classes == 1))
+    ind_v[true_classes == 2] = np.random.normal(loc=0.4, scale=0.2, size=np.sum(true_classes == 2))
+    
+    # 2. Capacitive Sensor (Dielectric Constant Response, 0-10V, Threshold = 5.0V)
+    cap_v = np.zeros(num_samples)
+    cap_v[true_classes == 0] = np.random.normal(loc=8.2, scale=0.7, size=np.sum(true_classes == 0)) # Metals also trigger cap
+    cap_v[true_classes == 1] = np.random.normal(loc=2.1, scale=0.5, size=np.sum(true_classes == 1)) # Low dielectric dry plastic
+    cap_v[true_classes == 2] = np.random.normal(loc=7.4, scale=0.8, size=np.sum(true_classes == 2)) # High dielectric water/moist organic
+
+    # 3. Optical Ingress Trigger (0 or 1, beam break reliability = 99.8%)
+    opt_gate = np.random.binomial(1, 0.998, size=num_samples)
+    
+    # Sensor Digital Thresholds (24V Logic in PLC)
+    ind_digital = ind_v >= 4.5
+    cap_digital = cap_v >= 5.0
+    
+    # Deterministic Decision Logic (Identical to Siemens PLC SCL Program)
+    pred_classes = np.zeros(num_samples, dtype=int)
+    for i in range(num_samples):
+        if not opt_gate[i]:
+            pred_classes[i] = -1 # Sensor trigger miss
+            continue
+            
+        if ind_digital[i]:
+            pred_classes[i] = 0 # Metal
+        elif cap_digital[i] and not ind_digital[i]:
+            pred_classes[i] = 2 # Organic / Wet
+        else:
+            pred_classes[i] = 1 # Plastic / Dry
+
+    # Compute Confusion Matrix
+    confusion_matrix = np.zeros((3, 3), dtype=int)
+    valid_mask = pred_classes != -1
+    for t, p in zip(true_classes[valid_mask], pred_classes[valid_mask]):
+        confusion_matrix[t, p] += 1
+        
+    overall_accuracy = np.trace(confusion_matrix) / np.sum(confusion_matrix) * 100.0
+
+    print("=========================================================================")
+    print("      AUTOMATED WASTE SEGREGATION: SENSOR FUSION EVALUATION              ")
+    print("=========================================================================")
+    print(f"Total Workpieces Evaluated: {num_samples}")
+    print(f"Overall Classification Accuracy: {overall_accuracy:.2f}%\n")
+    print(f"{'True \\ Predicted':<18}{'Metallic':<14}{'Plastic':<14}{'Organic':<14}")
+    print("-------------------------------------------------------------------------")
+    for i, c in enumerate(class_names):
+        print(f"{c:<18}{confusion_matrix[i, 0]:<14}{confusion_matrix[i, 1]:<14}{confusion_matrix[i, 2]:<14}")
+    print("=========================================================================")
+
+if __name__ == "__main__":
+    simulate_sorting_cell()
